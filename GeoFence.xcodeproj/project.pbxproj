@@ -14,6 +14,7 @@
 		62C3627A19C827C4004F0CA1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 62C3627919C827C4004F0CA1 /* Images.xcassets */; };
 		62C3627D19C827C4004F0CA1 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 62C3627B19C827C4004F0CA1 /* LaunchScreen.xib */; };
 		62C3628919C827C4004F0CA1 /* GeoFenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 62C3628819C827C4004F0CA1 /* GeoFenceTests.m */; };
+		62C3629319C9584C004F0CA1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62C3629219C9584C004F0CA1 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		62C3628219C827C4004F0CA1 /* GeoFenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeoFenceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		62C3628719C827C4004F0CA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		62C3628819C827C4004F0CA1 /* GeoFenceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeoFenceTests.m; sourceTree = "<group>"; };
+		62C3629219C9584C004F0CA1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62C3629319C9584C004F0CA1 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +66,7 @@
 		62C3626019C827C4004F0CA1 = {
 			isa = PBXGroup;
 			children = (
+				62C3629219C9584C004F0CA1 /* MapKit.framework */,
 				62C3626B19C827C4004F0CA1 /* GeoFence */,
 				62C3628519C827C4004F0CA1 /* GeoFenceTests */,
 				62C3626A19C827C4004F0CA1 /* Products */,
@@ -168,6 +172,14 @@
 				TargetAttributes = {
 					62C3626819C827C4004F0CA1 = {
 						CreatedOnToolsVersion = 6.0;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					62C3628119C827C4004F0CA1 = {
 						CreatedOnToolsVersion = 6.0;
@@ -412,6 +424,7 @@
 				62C3628E19C827C4004F0CA1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		62C3628F19C827C4004F0CA1 /* Build configuration list for PBXNativeTarget "GeoFenceTests" */ = {
 			isa = XCConfigurationList;
@@ -420,6 +433,7 @@
 				62C3629119C827C4004F0CA1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -7,9 +7,12 @@
 //
 
 #import "AppDelegate.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface AppDelegate ()
-
+@interface AppDelegate () <CLLocationManagerDelegate>
+@property CLLocationManager *manager;
+@property CLCircularRegion *distCircularRegion;
+@property CLLocationCoordinate2D location;
 @end
 
 @implementation AppDelegate
@@ -17,7 +20,24 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.manager = [[CLLocationManager alloc] init];
+    [self.manager setDelegate:self];
+    self.location = CLLocationCoordinate2DMake(35.697223, 139.769239);
+    
+    self.distCircularRegion = [[CLCircularRegion alloc]initWithCenter:self.location radius:150. identifier:@"神田"];
+    
+    UIUserNotificationSettings* notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+    
     return YES;
+}
+
+- (void)startMonitor {
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    if (status == kCLAuthorizationStatusNotDetermined) {
+        [self.manager requestAlwaysAuthorization];
+    }
+    [self.manager startMonitoringForRegion:self.distCircularRegion];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -42,4 +62,59 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    switch (status) {
+        case kCLAuthorizationStatusAuthorizedWhenInUse:
+        case kCLAuthorizationStatusAuthorizedAlways:
+            NSLog(@"Got authorization, start tracking location");
+            [self startMonitor];
+            break;
+        case kCLAuthorizationStatusNotDetermined:
+            [self.manager requestAlwaysAuthorization];
+        default:
+            break;
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
+{
+    //[self.manager requestStateForRegion:region];
+    NSLog(@"Started Monitoring for Circular Region %@", region);
+}
+
+- (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
+{
+    NSLog(@"Did Enter Region!! %@", region);
+    
+    UILocalNotification *notification = [UILocalNotification new];
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    
+    notification.alertBody = [NSString stringWithFormat:@"%@ に入りました。", region.identifier];
+    
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
+{
+    NSLog(@"Did Exit Region");
+    
+    UILocalNotification *notification = [UILocalNotification new];
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    
+    notification.alertBody = [NSString stringWithFormat:@"%@ から出ました。", region.identifier];
+    
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+}
+
+-(void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
+    NSLog(@"failed for region %@", region);
+    NSLog(@"error=%@", error);
+    
+    UILocalNotification *notification = [UILocalNotification new];
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    
+    notification.alertBody = @"エラーです。";
+    
+    [[UIApplication sharedApplication] presentLocalNotificationNow:notification];
+}
 @end
