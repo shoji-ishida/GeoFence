@@ -17,14 +17,17 @@
 
 @implementation AppDelegate
 
+const CLLocationDegrees LATITUDE = 35.697223;
+const CLLocationDegrees LONGITUDE = 139.769239;
+const CLLocationDistance RADIUS = 150.;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.manager = [[CLLocationManager alloc] init];
     [self.manager setDelegate:self];
-    self.location = CLLocationCoordinate2DMake(35.697223, 139.769239);
+    self.location = CLLocationCoordinate2DMake(LATITUDE, LONGITUDE);
     
-    self.distCircularRegion = [[CLCircularRegion alloc]initWithCenter:self.location radius:150. identifier:@"神田"];
+    self.distCircularRegion = [[CLCircularRegion alloc]initWithCenter:self.location radius:RADIUS identifier:@"神田"];
     
     UIUserNotificationSettings* notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
     [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];

@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-
+extern const CLLocationDegrees LONGITUDE;
+extern const CLLocationDegrees LATITUDE;
+extern const CLLocationDistance RADIUS;
 @end
 

@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import "AppDelegate.h"
 
 @interface ViewController () <MKMapViewDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -20,16 +21,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.mapView.mapType = MKMapTypeStandard;
-    CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(35.697223, 139.769239);
+    CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(LATITUDE, LONGITUDE);
     //MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, 150., 150.);
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coord, RADIUS *2.5 , RADIUS *2.5);
 
     //[self.mapView setShowsPointsOfInterest:YES];
     [self.mapView setShowsUserLocation:YES];
-    [self.mapView setRegion:region];
     [self.mapView setDelegate:self];
+    [self.mapView setRegion:region];
+
     
-    MKCircle * circle = [MKCircle circleWithCenterCoordinate:coord radius:150.];
+    MKCircle * circle = [MKCircle circleWithCenterCoordinate:coord radius:RADIUS];
     [self.mapView addOverlay:circle];
 }
 
